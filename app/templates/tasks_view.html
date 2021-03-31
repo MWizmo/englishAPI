@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tasks - Academic English</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="/static/admin/bootstrap/bootstrap3/swatch/cosmo/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+    <link href="/static/admin/admin/css/bootstrap3/admin.css?v=1.1.1" rel="stylesheet">
+    <link href="/static/admin/admin/css/bootstrap3/submenu.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 4px;
+        }
+    </style>
+    <link href="/static/admin/vendor/select2/select2.css?v=3.5.2" rel="stylesheet">
+    <link href="/static/admin/vendor/select2/select2-bootstrap3.css?v=1.4.6" rel="stylesheet">
+    <link href="/static/admin/vendor/bootstrap-daterangepicker/daterangepicker-bs3.css?v=1.3.22" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#admin-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Academic English</a>
+        </div>
+        <!-- navbar content -->
+        <div class="collapse navbar-collapse" id="admin-navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="/module/">Modules</a>
+                </li>
+                <li>
+                    <a href="/section/">Sections</a>
+                </li>
+                <li>
+                    <a href="/word/">Words</a>
+                </li>
+                <li class="active">
+                    <a href="/tasks/">Tasks</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+    </nav>
+    <div class="form-group">
+        <label for="section_select" class="col-md-2 control-label">Choose a section</label>
+        <div class="col-md-10">
+            <select class="form-control" id="section_select" required>
+                <option value=""></option>
+                {% for s in sections %}
+                <option value="{{s.id}}">{{s.title}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <br><br>
+    <div class="form-group" style="margin-top:30px; display:none;" id="content-title">
+        <label for="section_select" class="col-md-12 control-label">Content's list</label>
+    </div>
+    <div id="content">
+
+    </div>
+    <div class="form-group" style="margin-top:50px; display:none;" id="add_task_block">
+        <label class="col-md-12 control-label"></label>
+        <label class="col-md-2 control-label"></label>
+        <label class="col-md-3 control-label">Add new task to section</label>
+        <div class="col-md-4 ">
+        <select class="form-control" id="new_task_type" required>
+            <option value="" disabled selected>--Choose type--</option>
+            <option value="1">Theory</option>
+            <option value="2">Translate from EN to RU</option>
+            <option value="3">Translate from RU to EN</option>
+        </select></div>
+        <div class="col-md-3 control-label"><button class="btm btn-primary form-control" id="add_task_btn">Add task</button></div>
+    </div>
+</div>
+
+<script src="/static/admin/vendor/jquery.min.js?v=3.3.1" type="text/javascript"></script>
+<script src="/static/admin/bootstrap/bootstrap3/js/bootstrap.min.js?v=3.3.5" type="text/javascript"></script>
+<script src="/static/admin/vendor/moment.min.js?v=2.22.2" type="text/javascript"></script>
+<script src="/static/admin/vendor/select2/select2.min.js?v=3.5.2" type="text/javascript"></script>
+<script src="/static/admin/admin/js/helpers.js?v=1.0.0" type="text/javascript"></script>
+<script src="/static/admin/vendor/bootstrap-daterangepicker/daterangepicker.js?v=1.3.22"></script>
+<script src="/static/admin/admin/js/form.js?v=1.0.1"></script>
+<script src="/static/admin/admin/js/filters.js?v=1.0.0"></script>
+<script src="{{url_for('static', filename='js/tasks_view.js')}}"></script>
+</body>
+</html>

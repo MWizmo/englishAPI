@@ -84,3 +84,15 @@ class Dictionary(db.Model):
     user = db.relationship("User")
     word_id = db.Column(db.Integer, db.ForeignKey('word.id'))
     word = db.relationship("Word")
+
+
+class UserStat(db.Model):
+    __tablename__ = 'user_stat'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship("User")
+    word_id = db.Column(db.Integer, db.ForeignKey('word.id'))
+    word = db.relationship("Word")
+    correct_attempts = db.Column(db.Integer)
+    wrong_attempts = db.Column(db.Integer)
+    last_try_time = db.Column(db.DateTime)

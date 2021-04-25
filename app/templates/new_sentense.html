@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tasks - Academic English</title>
+    <title>Sentenses - Academic English</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,11 +14,11 @@
         body {
             padding-top: 4px;
         }
+
     </style>
     <link href="/static/admin/vendor/select2/select2.css?v=3.5.2" rel="stylesheet">
     <link href="/static/admin/vendor/select2/select2-bootstrap3.css?v=1.4.6" rel="stylesheet">
     <link href="/static/admin/vendor/bootstrap-daterangepicker/daterangepicker-bs3.css?v=1.3.22" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"/>
 </head>
 <body>
 <div class="container">
@@ -48,10 +48,10 @@
                 <li>
                     <a href="/collocation/">Collocations</a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="/sentense/">Sentenses</a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="/tasks/">Tasks</a>
                 </li>
                 <li>
@@ -62,48 +62,59 @@
             </ul>
         </div>
     </nav>
-    <div class="form-group">
-        <label for="section_select" class="col-md-2 control-label">Choose a section</label>
-        <div class="col-md-10">
-            <select class="form-control" id="section_select" required>
-                <option value=""></option>
-                {% for s in sections %}
-                <option value="{{s.id}}">{{s.title}}</option>
-                {% endfor %}
-            </select>
+    <ul class="nav nav-tabs">
+        <li>
+            <a href="/sentense/">List</a>
+        </li>
+        <li class="active">
+            <a href="javascript:void(0)">Create</a>
+        </li>
+    </ul>
+    <form action="" method="POST" role="form" class="admin-form form-horizontal" enctype="multipart/form-data" id="create_form">
+        <div class="form-group">
+            <label for="section" class="col-md-2 control-label">Section
+                &nbsp;
+            </label>
+            <div class="col-md-10">
+                <select class="form-control" data-allow-blank="1" data-role="select2" id="section" name="section">
+                    <option selected value="__None"></option>
+                    {% for s in sections %}
+                        <option value="{{s.id}}">{{s.title}}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
-    </div>
-    <br><br>
-    <div class="form-group" style="margin-top:30px; display:none;" id="content-title">
-        <label for="section_select" class="col-md-12 control-label">Content's list</label>
-    </div>
-    <div id="content">
+        <div id="sentense">
+            <div class="form-group text_block">
+                <label for="text1" class="col-md-2 control-label">Text block 1
+                    &nbsp;
+                </label>
+                <div class="col-md-10">
+                    <input class="form-control text_input" id="text1">
+                </div>
+            </div>
 
-    </div>
-    <div class="form-group" style="margin-top:50px; display:none;" id="add_task_block">
-        <label class="col-md-12 control-label"></label>
-        <label class="col-md-2 control-label"></label>
-        <label class="col-md-3 control-label">Add new task to section</label>
-        <div class="col-md-4 ">
-        <select class="form-control" id="new_task_type" required>
-            <option value="" disabled selected>--Choose type--</option>
-            <option value="1">WORDS: Theory</option>
-            <option value="2">WORDS: Translate from EN to RU</option>
-            <option value="3">WORDS: Translate from RU to EN</option>
-            <option value="4">WORDS: Choose by definition</option>
-            <option value="5">WORDS: Make a word from letters</option>
-            <option value="6">WORDS: Choose by audio</option>
-            <option value="7">WORDS: Write by audio</option>
-            <option value="8">COLLOCATIONS: Theory</option>
-            <option value="9">COLLOCATIONS: Translate from EN to RU</option>
-            <option value="10">COLLOCATIONS: Translate from RU to EN</option>
-            <option value="11">COLLOCATIONS: Match beginning and end</option>
-            <option value="12">SENTENSES: Insert missing word</option>
-        </select></div>
-        <div class="col-md-3 control-label"><button class="btm btn-primary form-control" id="add_task_btn">Add task</button></div>
-    </div>
+        </div>
+        <div class="form-group">
+                <label class="col-md-2 control-label">&nbsp;</label>
+                <div class="col-md-4">
+                    <button class="btm btn-primary form-control" id="add_blank_btn" type="button">Add missing word</button>
+                </div>
+                <label class="col-md-2 control-label">&nbsp;</label>
+                <div class="col-md-4">
+                    <button class="btm btn-primary form-control" id="add_text_btn" type="button">Add text block</button>
+                </div>
+            </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 submit-row">
+                <input type="submit" class="btn btn-primary" value="Save"/>
+                <input name="_add_another" type="submit" class="btn btn-default" value="Save and Add Another"/>
+                <a href="/sentense/" class="btn btn-danger" role="button">Cancel</a>
+            </div>
+        </div>
+    </form>
 </div>
-
 <script src="/static/admin/vendor/jquery.min.js?v=3.3.1" type="text/javascript"></script>
 <script src="/static/admin/bootstrap/bootstrap3/js/bootstrap.min.js?v=3.3.5" type="text/javascript"></script>
 <script src="/static/admin/vendor/moment.min.js?v=2.22.2" type="text/javascript"></script>
@@ -111,7 +122,6 @@
 <script src="/static/admin/admin/js/helpers.js?v=1.0.0" type="text/javascript"></script>
 <script src="/static/admin/vendor/bootstrap-daterangepicker/daterangepicker.js?v=1.3.22"></script>
 <script src="/static/admin/admin/js/form.js?v=1.0.1"></script>
-<script src="/static/admin/admin/js/filters.js?v=1.0.0"></script>
-<script src="{{url_for('static', filename='js/tasks_view.js')}}"></script>
+<script src="{{url_for('static', filename='js/new_sentense.js')}}"></script>
 </body>
 </html>

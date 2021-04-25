@@ -1,12 +1,6 @@
-$(document).ready(function() {
-
-});
-
-$('#section_select').on('change', function (e) {
-        var s_id = $('#section_select').val();
-        if (s_id) {
-            $.ajax({
-                url: '/api/tasks/' + s_id,
+function update_tasks_on_screen(section_id){
+    $.ajax({
+                url: '/api/tasks/' + section_id,
                 method: 'get',
                 dataType: 'json',
                 success: function (data) {
@@ -18,26 +12,50 @@ $('#section_select').on('change', function (e) {
                     else{
                         var html = '<div class="form-group"><label class="col-md-12 control-label"></label><ol>';
                         data.forEach(function(item, i, data) {
-                            html += '<label class="col-md-2 control-label"></label><li class="col-md-10 control-label"><h3>';
-                            console.log(item.taskType);
+                            html += '<label class="col-md-2 control-label"></label><li class="col-md-10 control-label"><div class="li_flex"><h3>';
                             switch(item.type) {
                               case 1:
-                                html += 'Theory</h3></li>';
+                                html += 'WORDS: Theory';
                                 break;
                               case 2:
-                                html += 'Translate from EN to RU</h3></li>';
+                                html += 'WORDS: Translate from EN to RU';
                                 break;
                               case 3:
-                                html += 'Translate from RU to EN</h3></li>';
+                                html += 'WORDS: Translate from RU to EN';
                                 break;
+                              case 4:
+                                html += 'WORDS: Choose by definition';
+                                break;
+                              case 5:
+                                html += 'WORDS: Make a word from letters'; break;
+                              case 6:
+                                html += 'WORDS: Choose by audio'; break;
+                              case 7:
+                                html += 'WORDS: Write by audio'; break;
+                              case 8:
+                                html += 'COLLOCATIONS: Theory'; break;
+                              case 9:
+                                html += 'COLLOCATIONS: Translate from EN to RU'; break;
+                              case 10:
+                                html += 'COLLOCATIONS: Translate from RU to EN'; break;
+                              case 11:
+                                html += 'COLLOCATIONS: Match beginning and end'; break;
+                              case 11:
+                                html += 'SENTENSES: Insert missing word'; break;
                             }
-
+                            html += '</h3><button type="button" class="x_btn" onclick="confirm(\'Delete this task?\') ? delete_task(' + item.id +') : \'\'">x</button></div></li>';
                         });
                         html += '</ol></div>';
                         $("#content").html(html);
                     }
                 }
             });
+}
+
+$('#section_select').on('change', function (e) {
+        var s_id = $('#section_select').val();
+        if (s_id) {
+            update_tasks_on_screen(s_id);
         }
     });
 
@@ -52,7 +70,8 @@ $('#add_task_btn').on('click', function (e) {
                 data: {'s_id': s_id, 't_id': t_id},
                 success: function (data) {
                     if(data.status == 'ok')
-                        window.location.reload(true);
+                        //window.location.reload(true);
+                        update_tasks_on_screen(s_id);
                 }
             });
     }
@@ -60,3 +79,15 @@ $('#add_task_btn').on('click', function (e) {
         alert("Choose task's type");
     }
 });
+
+function delete_task(task_id){
+    var s_id = $('#section_select').val();
+    $.ajax({
+        url: '/delete_task/' + task_id,
+        method: 'post',
+        dataType: 'json',
+        success: function (data) {
+            update_tasks_on_screen(s_id);
+        }
+    });
+}

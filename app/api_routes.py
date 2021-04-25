@@ -148,3 +148,15 @@ def login_user():
         return jsonify({"status": 400, "message": 'Wrong login or password'})
     else:
         return jsonify({"status": 200, "message": f'{user.id}_{user.first_name}'})
+
+
+@api.route('/user_stat/<user_id>')
+def get_user_stat(user_id):
+    stats = db.session.query(Word.en_word, UserStat.correct_attempts, UserStat.wrong_attempts) \
+        .join(Word, Word.id == UserStat.word_id) \
+        .filter(UserStat.user_id == user_id)\
+        .order_by(Word.en_word).all()
+    user_stats = []
+    for word in stats:
+        user_stats.append({'enWord': word[0], 'correctAttempts': word[1], 'wrongAttempts': word[2]})
+    return jsonify(user_stats)

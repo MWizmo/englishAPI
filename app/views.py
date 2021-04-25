@@ -5,6 +5,7 @@ from flask_admin import AdminIndexView, expose
 from wtforms.validators import DataRequired
 from wtforms import SelectField, TextAreaField
 from app.models import Section
+from werkzeug.security import generate_password_hash
 
 
 class IndexView(AdminIndexView):
@@ -78,3 +79,34 @@ class WordView(MyView):
 
 class TasksView(MyView):
     list_template = 'tasks_view.html'
+
+
+class UsersView(MyView):
+    column_list = ['username', 'email', 'first_name', 'last_name']
+
+    def on_model_change(self, form, model, is_created):
+        if len(model.password):
+            model.password = generate_password_hash(model.password)
+
+
+class CollocationView(MyView):
+    form_args = {
+        'first_part': {'label': 'First part of collocation', 'validators': [DataRequired()]},
+        'second_part': {'label': 'Second part of collocation', 'validators': [DataRequired()]},
+        'ru_translation': {'label': 'Translation on Russian', 'validators': [DataRequired()]},
+        'section': {'label': 'Section', 'validators': [DataRequired()]}
+    }
+    column_list = ['first_part', 'ru_translation', 'section.title']
+    column_labels = {'first_part': 'In English', 'ru_translation': 'In Russian', 'section.title': 'Section'}
+    column_sortable_list = ['section.title', 'first_part', 'ru_translation']
+    column_searchable_list = ['first_part', 'ru_translation']
+    column_default_sort = ('first_part', False)
+    list_template = 'collocations.html'
+
+
+class SentenseView(MyView):
+    column_list = ['text', 'section.title']
+    column_labels = {'text': 'Text', 'section.title': 'Section'}
+    column_sortable_list = ['section.title', 'text']
+    column_searchable_list = ['text']
+    column_default_sort = ('text', False)

@@ -1,0 +1,30 @@
+{% extends 'admin/model/list.html' %}
+
+{% block body %}
+    {{ super() }}
+{% endblock %}
+
+{% block list_row %}
+    <td><input type="checkbox" name="rowid" class="action-checkbox" value="{{row.id}}" title="Select record"></td>
+    <td class="list-buttons-column">
+        <a class="icon" href="/collocation/edit/?id={{row.id}}" title="Edit record">
+          <span class="fa fa-pencil glyphicon glyphicon-pencil"></span>
+        </a>
+        <form class="icon" method="POST" action="/collocation/delete/">
+          <input id="id" name="id" required type="hidden" value="{{row.id}}">
+          <input id="url" name="url" type="hidden" value="/collocation/">
+
+          <button onclick="return faHelpers.safeConfirm('Are you sure you want to delete this record?');" title="Delete record">
+            <span class="fa fa-trash glyphicon glyphicon-trash"></span>
+          </button>
+        </form>
+    </td>
+    <td>{{row.first_part}} {{row.second_part}}</td>
+    <td>
+        {{row.ru_translation}}
+    </td>
+    <td>
+        {{row.section.title}}
+    </td>
+
+{% endblock %}

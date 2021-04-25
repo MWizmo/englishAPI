@@ -96,3 +96,24 @@ class UserStat(db.Model):
     correct_attempts = db.Column(db.Integer)
     wrong_attempts = db.Column(db.Integer)
     last_try_time = db.Column(db.DateTime)
+
+
+class Collocation(db.Model):
+    __tablename__ = "collocation"
+    id = db.Column(db.Integer, primary_key=True)
+    first_part = db.Column(db.String(64))
+    second_part = db.Column(db.String(64))
+    ru_translation = db.Column(db.String(64))
+    section_id = db.Column(db.Integer, db.ForeignKey('section.id'))
+    section = db.relationship("Section")
+
+    def __repr__(self):
+        return f'{self.first_part} {self.second_part}'
+
+
+class Sentense(db.Model):
+    __tablename__ = "sentense"
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.Text)
+    section_id = db.Column(db.Integer, db.ForeignKey('section.id'))
+    section = db.relationship("Section")

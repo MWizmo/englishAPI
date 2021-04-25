@@ -23,4 +23,7 @@ admin = Admin(app, name='Academic English', template_mode='bootstrap3', index_vi
 admin.add_view(views.ModuleView(models.Module, db.session, name='Modules'))
 admin.add_view(views.SectionView(models.Section, db.session, name='Sections'))
 admin.add_view(views.WordView(models.Word, db.session, name='Words'))
+admin.add_view(views.CollocationView(models.Collocation, db.session, name='Collocations'))
+admin.add_view(views.SentenseView(models.Sentense, db.session, name='Sentenses'))
 admin.add_view(views.TasksView(models.Module, db.session, name='Tasks', endpoint='tasks'))
+admin.add_view(views.UsersView(models.User, db.session, name='Users'))

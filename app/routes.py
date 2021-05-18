@@ -92,3 +92,17 @@ def add_sentense():
         return jsonify({'status': 1, 'url': '/sentense/'})
     else:
         return jsonify({'status': 1, 'url': '/sentense/new/'})
+
+
+# @app.route('/word/new/')
+# def new_word():
+#     sections = Section.query.all()
+#     return render_template('new_word.html', edit=False, sections=sections)
+#
+#
+# @app.route('/word/edit/')
+# def edit_word():
+#     word_id = int(request.args.get('id'))
+#     sections = Section.query.all()
+#     word = Word.query.get(word_id)
+#     return render_template('new_word.html', edit=True, sections=sections, word=word)

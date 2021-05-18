@@ -1,6 +1,6 @@
 function update_tasks_on_screen(section_id){
     $.ajax({
-                url: '/api/tasks/' + section_id,
+                url: '/api/tasks/' + section_id + '&1',
                 method: 'get',
                 dataType: 'json',
                 success: function (data) {
@@ -31,7 +31,7 @@ function update_tasks_on_screen(section_id){
                               case 6:
                                 html += 'WORDS: Choose by audio'; break;
                               case 7:
-                                html += 'WORDS: Write by audio'; break;
+                                html += 'WORDS: Translate to Russian by audio'; break;
                               case 8:
                                 html += 'COLLOCATIONS: Theory'; break;
                               case 9:
@@ -40,7 +40,7 @@ function update_tasks_on_screen(section_id){
                                 html += 'COLLOCATIONS: Translate from RU to EN'; break;
                               case 11:
                                 html += 'COLLOCATIONS: Match beginning and end'; break;
-                              case 11:
+                              case 12:
                                 html += 'SENTENSES: Insert missing word'; break;
                             }
                             html += '</h3><button type="button" class="x_btn" onclick="confirm(\'Delete this task?\') ? delete_task(' + item.id +') : \'\'">x</button></div></li>';

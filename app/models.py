@@ -63,6 +63,7 @@ class Word(db.Model):
     definition = db.Column(db.String(256))
     section_id = db.Column(db.Integer, db.ForeignKey('section.id'))
     section = db.relationship("Section")
+    audio = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return self.en_word
@@ -77,6 +78,15 @@ class TaskInSection(db.Model):
     task_id = db.Column(db.Integer)
 
 
+class UserTask(db.Model):
+    __tablename__ = "user_task"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship("User")
+    task_id = db.Column(db.Integer, db.ForeignKey('task_in_section.id'))
+    task = db.relationship("TaskInSection")
+
+
 class Dictionary(db.Model):
     __tablename__ = "dictionary"
     id = db.Column(db.Integer, primary_key=True)
@@ -86,6 +96,16 @@ class Dictionary(db.Model):
     word = db.relationship("Word")
 
 
+class CollocationDictionary(db.Model):
+    __tablename__ = "collocation_dictionary"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship("User")
+    collocation_id = db.Column(db.Integer, db.ForeignKey('collocation.id'))
+    collocation = db.relationship("Collocation")
+    audio = db.Column(db.Boolean, default=False)
+
+
 class UserStat(db.Model):
     __tablename__ = 'user_stat'
     id = db.Column(db.Integer, primary_key=True)
@@ -93,6 +113,18 @@ class UserStat(db.Model):
     user = db.relationship("User")
     word_id = db.Column(db.Integer, db.ForeignKey('word.id'))
     word = db.relationship("Word")
+    correct_attempts = db.Column(db.Integer)
+    wrong_attempts = db.Column(db.Integer)
+    last_try_time = db.Column(db.DateTime)
+
+
+class UserCollocationStat(db.Model):
+    __tablename__ = 'user_collocation_stat'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship("User")
+    collocation_id = db.Column(db.Integer, db.ForeignKey('collocation.id'))
+    collocation = db.relationship("Collocation")
     correct_attempts = db.Column(db.Integer)
     wrong_attempts = db.Column(db.Integer)
     last_try_time = db.Column(db.DateTime)
@@ -108,6 +140,10 @@ class Collocation(db.Model):
     section = db.relationship("Section")
 
     def __repr__(self):
+        return f'{self.first_part} {self.second_part}'
+
+    @property
+    def full(self):
         return f'{self.first_part} {self.second_part}'
 
 
